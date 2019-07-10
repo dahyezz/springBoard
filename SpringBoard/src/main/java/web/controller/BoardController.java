@@ -24,7 +24,6 @@ public class BoardController {
 	@RequestMapping(value="/board/list", method=RequestMethod.GET)
 	public void getList(Model model, String curPage) {
  
-
 		Paging paging = boardService.getcurPage(curPage);
 		
 		List<Board> boardList = boardService.list(paging);
