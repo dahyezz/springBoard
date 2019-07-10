@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 마이바티스 3 Mapper DOCTYPE -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="web.dao.face.BoardDao">
+	
+	<resultMap type="web.dto.Board" id="Board">
+		<result column="board_no" property="boardno" />
+		<result column="writer_id" property="writerId" />
+		<result column="writer_nick" property="writerNick" />
+		<result column="write_date" property="writeDate"/>
+	</resultMap>
+	
+	<select id="selectAll" parameterType="web.util.Paging" resultMap="Board">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM board
+				ORDER BY board_no DESC
+				) B
+			ORDER BY rnum
+		) BOARD
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="selectCntAll" resultType="int">
+		SELECT COUNT(*) FROM board
+	</select>
+	
+	<select id="selectBoardByBoardno" parameterType="web.dto.Board" resultMap="Board">
+		SELECT * FROM board
+		WHERE board_no = #{boardno }
+	</select>
+	
+	<update id="hit" parameterType="web.dto.Board">
+		UPDATE board
+		SET hit = hit + 1
+		WHERE board_no = #{boardno }
+	</update>
+	
+	<insert id="insertBoard" parameterType="web.dto.Board">
+		INSERT INTO board ( BOARD_NO, TITLE, CONTENT, WRITER_ID, WRITER_NICK, HIT ) 
+		VALUES ( board_seq.nextval, #{title }, #{content }, #{writerId }, #{writerNick }, 0 )
+	</insert>
+	
+	<update id="updateBoard" parameterType="web.dto.Board">
+		UPDATE board
+		SET title = #{title }, content = #{content }
+		WHERE board_no = #{boardno }
+	</update>
+	
+	<delete id="deleteBoard" parameterType="web.dto.Board">
+		DELETE board
+		WHERE board_no = #{boardno }
+	</delete>
+
+</mapper>
