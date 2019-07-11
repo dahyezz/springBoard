@@ -33,6 +33,7 @@ table, th {
 		<th style="width: 10%">작성자</th>
 		<th style="width: 10%">닉네임</th>
 		<th style="width: 5%">조회수</th>
+		<th style="width: 5%">추천수</th>
 		<th style="width: 20%">작성일</th>
 	</tr>
 	<c:forEach items="${boardList }" var="i">
@@ -42,6 +43,7 @@ table, th {
 		<td>${i.writerId }</td>
 		<td>${i.writerNick }</td>
 		<td>${i.hit }</td>
+		<td>${i.recommend }</td>
 		<td><fmt:formatDate value="${i.writeDate }" pattern="yyyy-MM-dd" /></td>
 	</tr>
 	</c:forEach>

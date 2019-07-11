@@ -47,7 +47,7 @@ function postForm() {
 </div>
 
 <div>
-<form action="/board/write" method="post" onsubmit="postForm()">
+<form action="/board/write" method="post" onsubmit="postForm()" enctype="multipart/form-data">
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon1">제목</span>
 		<input type="text" class="form-control" name="title" style="width:100%"/>

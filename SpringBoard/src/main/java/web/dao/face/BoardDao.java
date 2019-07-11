@@ -3,6 +3,8 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.Board;
+import web.dto.Boardfile;
+import web.dto.Recommend;
 import web.util.Paging;
 
 public interface BoardDao {
@@ -20,11 +22,26 @@ public interface BoardDao {
 	 */
 	public void hit(Board board);
 
-	public void insertBoard(Board board);
+	public int insertBoard(Board board);
 
 	public void updateBoard(Board board);
 
 	public void deleteBoard(Board board);
+
+	/**
+	 * 파일 insert
+	 * 
+	 * @param boardfile
+	 */
+	public void insertBoardFile(Boardfile boardfile);
+
+	public Boardfile selectBoardfileByBoardno(Board board);
+
+	public Boardfile selectBoardfileByFileno(Boardfile boardfile);
+
+	public void deleteFile(Board board);
+
+	public int selectCntRecommend(Recommend recommend);
 	
 	
 

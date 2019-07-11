@@ -26,6 +26,12 @@
 	
 	<dependencies>
 	
+<!-- Commons Fileupload 1.4  -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>	
 
 <!-- 아파치 타일즈 3 -->
 <dependency>

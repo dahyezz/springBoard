@@ -15,7 +15,9 @@
 	</resultMap>
 	
 	<select id="selectAll" parameterType="web.util.Paging" resultMap="Board">
-		SELECT * FROM (
+		SELECT board_no, title, content, writer_id, writer_nick, hit, write_date,
+			( SELECT COUNT(*) FROM recommend WHERE board_no = board.board_no) AS recommend
+		FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT * FROM board
 				ORDER BY board_no DESC
@@ -30,8 +32,10 @@
 	</select>
 	
 	<select id="selectBoardByBoardno" parameterType="web.dto.Board" resultMap="Board">
-		SELECT * FROM board
-		WHERE board_no = #{boardno }
+		SELECT board_no, title, content, writer_id, writer_nick, hit, write_date,
+    		( SELECT COUNT(*) FROM recommend WHERE board_no = board.board_no) AS recommend
+		FROM board
+		WHERE board_no=#{boardno }
 	</select>
 	
 	<update id="hit" parameterType="web.dto.Board">
@@ -41,8 +45,14 @@
 	</update>
 	
 	<insert id="insertBoard" parameterType="web.dto.Board">
+	
 		INSERT INTO board ( BOARD_NO, TITLE, CONTENT, WRITER_ID, WRITER_NICK, HIT ) 
 		VALUES ( board_seq.nextval, #{title }, #{content }, #{writerId }, #{writerNick }, 0 )
+
+		<selectKey order="AFTER" resultType="int" keyProperty="boardno">
+			SELECT max(board_no) FROM board
+		</selectKey>
+
 	</insert>
 	
 	<update id="updateBoard" parameterType="web.dto.Board">
@@ -50,10 +60,38 @@
 		SET title = #{title }, content = #{content }
 		WHERE board_no = #{boardno }
 	</update>
+
+	<delete id="deleteFile" parameterType="web.dto.Board">
+		DELETE boardfile
+		WHERE board_no = #{boardno }
+	</delete>
 	
 	<delete id="deleteBoard" parameterType="web.dto.Board">
 		DELETE board
 		WHERE board_no = #{boardno }
 	</delete>
+	
+	<insert id="insertBoardFile" parameterType="web.dto.Boardfile">
+		INSERT INTO boardfile(fileno, board_no, originname, storedname, filesize)
+		VALUES (boardfile_seq.nextval, #{boardno }, #{originname }, #{storedname }, #{filesize })
+	</insert>
+	
+	<select id="selectBoardfileByBoardno" parameterType="web.dto.Board" resultType="web.dto.Boardfile">
+		SELECT fileno, board_no boardno, originname, storedname, filesize, writedate
+		FROM boardfile
+		WHERE board_no = #{boardno }
+	</select>
+	
+	<select id="selectBoardfileByFileno" parameterType="web.dto.Boardfile" resultType="web.dto.Boardfile">
+		SELECT fileno, board_no boardno, originname, storedname, filesize, writedate
+		FROM boardfile
+		WHERE fileno = #{fileno }
+	</select>
+	
+	<select id="selectCntRecommend" parameterType="web.dto.Recommend" resultType="int">
+		SELECT COUNT(*)
+		FROM recommend
+		WHERE id = #{id } AND board_no = #{board_no }
+	</select>
 
 </mapper>

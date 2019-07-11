@@ -46,7 +46,7 @@ $(document).ready(function() {
 </div>
 
 <div>
-<form action="/board/update" method="post" >
+<form action="/board/update" method="post" enctype="multipart/form-data" >
 	<input type="hidden" name="boardno" value="${board.boardno }" />
 	<div class="input-group">
 		<span class="input-group-addon" id="basic-addon1">제목</span>
@@ -65,7 +65,10 @@ $(document).ready(function() {
 
 	<textarea name="content" id="summernote" style="display: none;">${board.content }</textarea>
 
-<label>첨부파일 : <input type="file" name="file" /></label>
+<div id="attachfile">
+	<label>기존 첨부파일 : <a href="/board/download?fileno=${file.fileno }">${file.originname }</a></label><br>
+	<label>첨부파일 : <input type="file" name="file" /></label>
+</div>
 
 <div class="text-center">	
 	<button class="btn btn-info">수정</button>
