@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -128,5 +129,29 @@ public class BoardController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/board/recommend", method=RequestMethod.GET)
+	public ModelAndView recommend(Board board, HttpSession session,
+			ModelAndView mav, Recommend recommend) {
+		
+		recommend.setBoard_no(board.getBoardno());
+		recommend.setId(session.getAttribute("id").toString());
+		
+		logger.info(recommend.toString());
+		
+		boolean result = boardService.recommend(recommend);
+		mav.addObject("result",result);
+		
+		int cnt = boardService.getTotalCntRecommend(recommend);
+		mav.addObject("cnt", cnt);
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//		map.put("result", result);
+//		map.put("cnt", cnt);
+//		model.addAttribute("map", map);
+		
+		mav.setViewName("jsonView");
+		
+		return mav;
+//		return "/board/view";
+	}
 	
 }

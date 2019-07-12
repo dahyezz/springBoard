@@ -89,5 +89,21 @@ public interface BoardService {
 	 */
 	public boolean checkRecommend(Recommend recommend);
 
+	/**
+	 * 추천 상태에 따라 추천/ 추천 취소
+	 * 
+	 * @param recommend - 추천/추천 취소 하려는 board_no, id 
+	 * @return boolean - 추천한 상태면 false
+	 */
+	public boolean recommend(Recommend recommend);
+
+	/**
+	 * 게시글당 전체 추천수 가져오기
+	 * 
+	 * @param recommend - 게시글 번호
+	 * @return int - 게시글 번호에 해당하는 추천수 
+	 */
+	public int getTotalCntRecommend(Recommend recommend);
+
 	
 }

@@ -34,12 +34,33 @@ $(document).ready(function() {
 	
 	$('#btnRecommend').click(function() {
 		var board_no = ${board.boardno };
-// 		var id = ${id };
+		var id = $('#id').val();
 		
 		console.log(board_no)
-		console.log(${id })
+		console.log(id)
 		
-		$.ajax()		
+		$.ajax({
+			type: "get"
+			, url: "/board/recommend"
+			, data: {"boardno" : board_no}
+			, dataType: "json"
+			, success: function(data) {
+				console.log("성공")
+				console.log(data);
+				
+				if(data.result) { //추천 성공
+					$('#btnRecommend').addClass("btn-warning").html('추천 취소');
+				} else {
+					$('#btnRecommend').addClass("btn-primary").html('추천');	
+				}
+				
+				//추천수 적용
+				$('#recommend').html(data.cnt);
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		});	
 	});
 	
 });
@@ -53,6 +74,7 @@ $(document).ready(function() {
 </style>
 
 
+<input type="hidden" id="id" value="${id }" />
 
 <div class="page-header">
 	<h3>게시글 조회</h3>
