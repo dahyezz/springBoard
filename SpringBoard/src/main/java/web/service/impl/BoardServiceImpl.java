@@ -157,4 +157,24 @@ public class BoardServiceImpl implements BoardService{
 		else 
 			return false;
 	}
+	
+	@Override
+	public boolean recommend(Recommend recommend) {
+		
+		if(boardDao.selectCntRecommend(recommend) > 0) {
+			boardDao.deleteRecommend(recommend);
+			
+			return false;
+		} else {
+			boardDao.insertRecommend(recommend);
+			
+			return true;
+		}
+		
+	}
+	
+	@Override
+	public int getTotalCntRecommend(Recommend recommend) {
+		return boardDao.selectCntAllRecommend(recommend);
+	}
 }

@@ -42,6 +42,12 @@ public interface BoardDao {
 	public void deleteFile(Board board);
 
 	public int selectCntRecommend(Recommend recommend);
+
+	public void insertRecommend(Recommend recommend);
+
+	public void deleteRecommend(Recommend recommend);
+
+	public int selectCntAllRecommend(Recommend recommend);
 	
 	
 
